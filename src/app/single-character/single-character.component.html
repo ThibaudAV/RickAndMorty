@@ -1,0 +1,14 @@
+<div class="card">
+  <img [alt]="character.name" [src]="character.image" />
+  <div class="container">
+    <h4
+      [class.alive]="character.status === 'Alive'"
+      [class.dead]="character.status === 'Dead'"
+    >
+      {{ character.name }}
+    </h4>
+    <p>{{ character.status }} - {{ character.species }}</p>
+    <p>Genre : {{ character.gender }}</p>
+    <p>Dernier emplacement connu: {{ character.location.name }}</p>
+  </div>
+</div>

@@ -1,0 +1,29 @@
+<table class="character-table">
+  <tr>
+    <th>Id</th>
+    <th>Name</th>
+    <th>Status</th>
+    <th>Espèce</th>
+    <th>genre</th>
+  </tr>
+  <tr
+    *ngFor="let character of allCharacters"
+    class="character-line"
+    [class.selected]="
+      selectedCharacter && character.id === selectedCharacter.id
+    "
+    (click)="onClick(character.id)"
+  >
+    <td>{{ character.id }}</td>
+    <td>{{ character.name }}</td>
+    <td>{{ character.status }}</td>
+    <td>{{ character.species }}</td>
+    <td>{{ character.gender }}</td>
+  </tr>
+</table>
+<br />
+<br />
+<app-single-character
+  *ngIf="this.selectedCharacter !== undefined"
+  [character]="selectedCharacter"
+></app-single-character>
