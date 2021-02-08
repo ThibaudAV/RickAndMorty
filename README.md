@@ -350,7 +350,65 @@ A chaque changement de l'id donné en Input() du composant `app-single-character
 
 L'objectif est de séparer la liste des personnages de l'affichage d'un personnage, et de permetre aux urls suivantes de fonctionner :
 
--> http://localhost:4200/ Affiche la liste des personnages  
+-> http://localhost:4200/ Affiche une page d'accueil avec un menu  
+-> http://localhost:4200/characters Affiche la liste des personnages  
 -> http://localhost:4200/character/1 Affiche la fiche du 1er personnage
 
-...TODO
+Le Routing est le mécanisme qui permet de naviguer d'une page à une autre sur un site web.
+Par exemple si vous tapez ces deux url dans votre navigateur :
+
+- https://fr.wikipedia.org/wiki/Le_Roi_lion
+- https://fr.wikipedia.org/wiki/Avengers:_Endgame
+  En fonction du nom de film indiqué dans l'url, l'application Web de Wikipedia va déterminer le traitement à effectuer.
+  Ce traitement permettra d'afficher la page web correspondante au film demandé (ici Le_Roi_lion ou Avengers:\_Endgame).
+
+Dans angular le routing est donc assuré par le `RouterModule` et en ajoutant la bonne configuration à ce module. Lors de la création de l'application nous avons choisi de laisser angular initialiser le routing.
+On peut donc retrouver l'init et la config du routing dans le module `AppRoutingModule` du fichier `app-routing.module.ts`
+
+### Ex 1
+
+À partir de la doc Angular ([ici](https://angular.io/guide/router#defining-a-basic-route)) ou toutes autres recherches google (ex: [Guide Angular Wishtack](https://guide-angular.wishtack.io/angular/routing/mise-en-place-du-routing)).
+
+Ajouter la route permettant de retrouver la liste des personnages avec le lien http://localhost:4200/characters
+
+### Ex 2
+
+Ajouter la 2e route `http://localhost:4200/character/1` qui va permettre de visualiser un seul personnage en fonction de l'identifiant (dans cette url : `1`)
+
+Pour configurer cette route, il va être nécessaire de spécifier la partie dynamique (l'identifiant) comme paramètre de la route.
+
+Si on se rend sur cette nouvelle route, aucun personnage ne s'affiche. Il manque l'association du paramètre de la route au personnage à afficher.
+
+Angular fournit un service `ActivatedRoute` qui décrit l'état actuel du "router".
+
+Ajouter ce service dans `SingleCharacterComponent` et l'utiliser pour récupèrer le paramètre de la route définie.
+
+Aidez-vous de ce qui est décrit ici : https://guide-angular.wishtack.io/angular/routing/mise-en-place-du-routing#5-acces-aux-parametres
+
+Comme je pense que vous n'avez encore jamais vu d'Observable je vous recommande d'utiliser la propriété `snapshot`
+
+/!\ Dans notre liste de personnages, id est un nombre.
+
+Tester avec la route suivante : http://localhost:4200/character/2 si le bon personnage s'affiche 👏
+
+### Ex 3
+
+Pour naviguer d'une page à l'autre il faut ajouter des liens.
+Ajouter un lien "Retour à la liste des personnages" dans le composant `SingleCharacterComponent`
+
+Aidez-vous de ce qui est décrit ici : https://guide-angular.wishtack.io/angular/routing/mise-en-place-du-routing#4-creation-de-liens
+
+### Ex 4
+
+Supprimer le composant `<app-single-character></app-single-character>` dans `all-characters.component.html`
+
+Ajouter un lien sur chaque ligne de la liste du tableau permettant de rediriger vers le bon personnage.
+
+### Ex 5
+
+Ajouter un composant `Home` afin d'avoir une page d'acceuil sur la route `http://localhost:4200/`
+
+Ajouter le lien "Liste des personnages" sur cette nouvelle page.
+Enfin, ajouter un lien "Retour au menu" sur la page de liste des personnages.
+
+👏👏👏
