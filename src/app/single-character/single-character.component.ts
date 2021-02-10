@@ -1,27 +1,28 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit } from '@angular/core';
+import { CharactersRepository } from '../services/character-repository.service';
 
 @Component({
   selector: 'app-single-character',
   templateUrl: './single-character.component.html',
   styleUrls: ['./single-character.component.scss'],
 })
-export class SingleCharacterComponent implements OnInit {
+export class SingleCharacterComponent implements OnInit, OnChanges {
   @Input()
-  character = {
-    id: 1,
-    name: 'Rick Sanchez',
-    status: 'Dead',
-    species: 'Human',
-    gender: 'Male',
-    location: {
-      name: 'Earth',
-      url: 'https://rickandmortyapi.com/api/location/20',
-    },
-    image: 'https://rickandmortyapi.com/api/character/avatar/1.jpeg',
-    url: 'https://rickandmortyapi.com/api/character/1',
-  };
+  characterId: number | undefined;
 
-  constructor() {}
+  character: any = undefined;
+
+  // `private` permet de définir le service `charactersRepository` comme propriété de la class
+  constructor(private charactersRepository: CharactersRepository) {}
 
   ngOnInit(): void {}
+
+  // est exécuté quand les @Input changent
+  ngOnChanges(): void {
+    if (this.characterId) {
+      this.character = this.charactersRepository.getCharacterById(
+        this.characterId
+      );
+    }
+  }
 }
