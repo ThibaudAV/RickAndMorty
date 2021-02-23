@@ -346,7 +346,7 @@ A chaque changement de l'id donné en Input() du composant `app-single-character
   > }
   > ```
 
-## 4 - Ajouter une page personnage
+## 4 - Ajouter des routes
 
 L'objectif est de séparer la liste des personnages de l'affichage d'un personnage, et de permetre aux urls suivantes de fonctionner :
 
@@ -412,3 +412,114 @@ Ajouter le lien "Liste des personnages" sur cette nouvelle page.
 Enfin, ajouter un lien "Retour au menu" sur la page de liste des personnages.
 
 👏👏👏
+
+## 5 - Utiliser l'api RickAndMorty
+
+Doc de l'api : https://rickandmortyapi.com/documentation
+
+Dans les parties précédentes nous avons créé un service pour stocker la liste des personnages.
+Nous allons maintenant compléter ce service pour aller chercher la liste sur l'api de RickAndMorty.
+
+> Dans une application Angular, la plupart des données proviennent d'API où les échanges de données se font via des requêtes HTTP.  
+> Pour produire des requêtes HTTP, Angular fournit un service HttpClient qui est un wrapper de la classe native (et vieillissante) XMLHttpRequest. (#Ajax pour les connaiserus)
+
+> ### HttpClient
+>
+> HttpClient est un service Angular. On peut donc le récupérer avec la Dependency Injection.
+>
+> ```js
+> ...
+> constructor(private httpClient: HttpClient) {
+> ...
+> ```
+>
+> Et bien sur, il faut ajouter le module associé qui référence ce service `HttpClientModule` dans les imports du module courant.
+
+> Le service `HttpClient` met a disposition les méthodes : `get`, `delete`, `patch`, `post`, `put`, etc... .
+> qui permettent de fabriquer un "`Observable`" qui réalisera le call HTTP
+
+> Il existe 2 façons de réaliser des actions asynchrones : `Observable` ou `Promise`. Pour commencer, on va utiliser les `Promise`. Ajouter un `toPromise()` après la méthode `get`, `delete`, etc...  
+> La fonction devient donc asynchrone. Vous pouvez utiliser les async/await pour plus de simplifications.
+
+> ### Qu’est-ce que async/await ?
+>
+> Une fonction définie avec le mot clé `async` renvoie systématiquement une promesse : si une erreur est levée pendant l’exécution de la fonction, alors la promesse est rejetée. Sinon si une valeur est retournée, alors la promesse est résolue avec cette valeur.
+> Ce comportement est comparable aux callbacks.
+>
+> La partie la plus intéressante est l’utilisation du mot clé `await`. `await` peut être utilisé uniquement dans une fonction `async`, et permet d’attendre la résolution d’une promesse et retourner sa valeur.
+
+### Ex 1
+
+Utiliser httpClient pour retourner la liste des personnages dans la methode `getAllCharacters` du `CharactersRepository`
+
+Il faut utiliser l'endpoint : `GET https://rickandmortyapi.com/api/character` de l'[api](https://rickandmortyapi.com/documentation/#get-all-characters)
+
+### Ex 2
+
+Modifier la méthode `getCharacterById` pour qu'elle utilise directement le [Get a single location
+](https://rickandmortyapi.com/documentation/#get-a-single-location) de l'api
+
+### Ex 3
+
+Pour avoir un code propre, il faut soigner les types typescript ! Jusqu'à présent, nous avons utilisé le type `any`. Nous devons donc les remplacer ou laisser l'inférence de type typescript faire son travail afin de s'assurer que le code sera fonctionnel.
+
+Ajouter les types (types, interfaces ou class) pour :
+
+- [Character](https://rickandmortyapi.com/documentation/#character-schema) qui correspond à l'interface de l'objet d'un seul personnage
+- [Info and Pagination](https://rickandmortyapi.com/documentation/#info-and-pagination) qui correspond au résultat d'une recherche de personnages
+
+### 6 - Utiliser Angular Material
+
+Documentation de Angular Material : https://material.angular.io/guide/getting-started
+
+Vous pouvez utiliser `npm run ng add @angular/material` si vous n'avez pas installé angular (`ng`) en global
+
+> `? Choose a prebuilt theme name, or "custom" for a custom theme:` Celui de votre choix  
+> `? Set up global Angular Material typography styles?` Yes  
+> `? Set up browser animations for Angular Material?` Yes
+
+Pensez à bien lire la doc si vous utilisez un [theme prédéfini](https://material.angular.io/guide/theming#using-a-pre-built-theme).
+
+> Finally, if your app's content is not placed inside a `mat-sidenav-container` element, you need to add the `mat-app-background` `class` to your wrapper element (for example the `body`). This ensures that the proper theme background is applied to your page.
+
+### Ex 1
+
+Ajouter une Toolbar en haut de l'application.  
+Ajouter un lien vers la home `/`.  
+Ajouter un lien vers la liste des personnages `/characters`.
+
+Rendu final à obtenir :
+![Rendu final](./readme-img/6-ex1.png)
+
+### Ex 2
+
+Utiliser `<mat-card>` pour afficher les infos du personnage dans le composant `SingleCharacterComponent`
+
+Rendu final à obtenir :
+![Rendu final](./readme-img/6-ex2.png)
+
+### Ex 3
+
+Remplacer la liste de personnages par une liste de `<mat-card>` pour un meilleur affichage.
+
+Rendu final à obtenir :
+![Rendu final](./readme-img/6-ex3.png)
+
+### Ex 4
+
+Ajouter une card avec des filtres pour pouvoir rechercher des personnages. Pour le moment on fait uniquement l'affichage.
+
+Il faut utiliser `mat-form-field` avec 1 `input` text et 2 `mat-select`.
+
+Ajouter un bouton en haut à droite.
+
+Rendu final à obtenir :
+![Rendu final](./readme-img/6-ex4.png)
+
+Ex 5:
+
+Ajouter `<mat-paginator>` pour afficher une pagination de la liste des personnages.
+
+Ajouter le bon binding pour `[length]` afin d'afficher le bon total de page à partir des données de l'api.
+
+> Le bon total est : 671
