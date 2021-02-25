@@ -1,4 +1,6 @@
-import { Component, Input, OnChanges, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { Character } from '../models/Character';
 import { CharactersRepository } from '../services/character-repository.service';
 
 @Component({
@@ -6,23 +8,22 @@ import { CharactersRepository } from '../services/character-repository.service';
   templateUrl: './single-character.component.html',
   styleUrls: ['./single-character.component.scss'],
 })
-export class SingleCharacterComponent implements OnInit, OnChanges {
-  @Input()
-  characterId: number | undefined;
-
-  character: any = undefined;
+export class SingleCharacterComponent implements OnInit {
+  character?: Character = undefined;
 
   // `private` permet de définir le service `charactersRepository` comme propriété de la class
-  constructor(private charactersRepository: CharactersRepository) {}
+  constructor(
+    private charactersRepository: CharactersRepository,
+    private activatedRoute: ActivatedRoute
+  ) {}
 
-  ngOnInit(): void {}
-
-  // est exécuté quand les @Input changent
-  ngOnChanges(): void {
-    if (this.characterId) {
-      this.character = this.charactersRepository.getCharacterById(
-        this.characterId
-      );
+  ngOnInit(): void {
+    if (this.activatedRoute.snapshot.params.id) {
+      this.charactersRepository
+        .getCharacterById(Number(this.activatedRoute.snapshot.params.id))
+        .then((character) => {
+          this.character = character;
+        });
     }
   }
 }

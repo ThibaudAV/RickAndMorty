@@ -1,4 +1,10 @@
+<mat-toolbar>
+  <span>Rick And Morty</span>
+  <button mat-button routerLink="/characters" color="primary">
+    Liste des personnages
+  </button>
+</mat-toolbar>
+
 <div class="container">
-  <h1>Rick And Morty</h1>
-  <app-all-characters></app-all-characters>
+  <router-outlet></router-outlet>
 </div>

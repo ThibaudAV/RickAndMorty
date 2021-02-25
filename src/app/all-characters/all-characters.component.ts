@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Character } from '../models/Character';
 import { CharactersRepository } from '../services/character-repository.service';
 
 @Component({
@@ -7,23 +8,13 @@ import { CharactersRepository } from '../services/character-repository.service';
   styleUrls: ['./all-characters.component.scss'],
 })
 export class AllCharactersComponent implements OnInit {
-  allCharacters: any;
+  allCharacters: Character[] = [];
 
-  selectedCharacterId: any = undefined;
+  constructor(private charactersRepository: CharactersRepository) {}
 
-  constructor(private charactersRepository: CharactersRepository) {
-    this.allCharacters = this.charactersRepository.getAllCharacters();
-  }
-
-  ngOnInit(): void {}
-
-  public onClick(characterId: any): void {
-    const selectedCharacter = this.allCharacters.find(
-      (c: any) => c.id === characterId
-    );
-
-    if (selectedCharacter) {
-      this.selectedCharacterId = selectedCharacter.id;
-    }
+  ngOnInit(): void {
+    this.charactersRepository.getAllCharacters().then((list) => {
+      this.allCharacters = list.results;
+    });
   }
 }

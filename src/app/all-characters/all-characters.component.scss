@@ -1,23 +1,30 @@
-.character-table {
-  border-collapse: collapse;
-  border-spacing: 0;
-  width: 100%;
-  border: 1px solid #ddd;
+@import "~@angular/material/theming";
 
-  th,
-  td {
-    text-align: left;
-    padding: 16px;
-  }
+.card-container {
+  margin-top: 16px;
 
-  .character-line {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 10px;
+
+  .card {
     cursor: pointer;
 
     &:hover {
-      background-color: lightgray;
-    }
-    &.selected {
-      background-color: lightseagreen;
+      @include mat-elevation(8);
     }
   }
+}
+
+.search-bar {
+  margin-top: 16px;
+
+  .search-bar-field {
+    padding: 0 4px;
+  }
+}
+
+.search-bar-header {
+  display: flex;
+  justify-content: space-between;
 }

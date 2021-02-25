@@ -1,14 +1,20 @@
-<div class="card">
+<a mat-flat-button routerLink="/characters" class="back-btn">
+  <mat-icon>undo</mat-icon>Retour a la liste des personnages
+</a>
+
+<mat-card class="card" *ngIf="character">
   <img [alt]="character.name" [src]="character.image" />
   <div class="container">
-    <h4
+    <h1
       [class.alive]="character.status === 'Alive'"
       [class.dead]="character.status === 'Dead'"
     >
       {{ character.name }}
-    </h4>
-    <p>{{ character.status }} - {{ character.species }}</p>
+    </h1>
+    <p>Status : {{ character.status }}</p>
+    <p>Species : {{ character.species }}</p>
     <p>Genre : {{ character.gender }}</p>
+    <p>Origin : {{ character.origin.name }}</p>
     <p>Dernier emplacement connu: {{ character.location.name }}</p>
   </div>
-</div>
+</mat-card>

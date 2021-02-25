@@ -1,29 +1,56 @@
-<table class="character-table">
-  <tr>
-    <th>Id</th>
-    <th>Name</th>
-    <th>Status</th>
-    <th>Espèce</th>
-    <th>genre</th>
-  </tr>
-  <tr
+<mat-card class="search-bar">
+  <mat-card-header class="search-bar-header">
+    <mat-card-title>Filtrer les personnages</mat-card-title>
+    <button mat-button>Effacer les filtres</button>
+  </mat-card-header>
+
+  <mat-form-field class="search-bar-field" appearance="fill">
+    <mat-label>Nom</mat-label>
+    <input matInput type="text" />
+  </mat-form-field>
+
+  <mat-form-field class="search-bar-field" appearance="fill">
+    <mat-select>
+      <mat-option>-- None --</mat-option>
+      <mat-option value="alive">Alive</mat-option>
+      <mat-option value="dead">Dead</mat-option>
+      <mat-option value="unknown">Unknown</mat-option>
+    </mat-select>
+    <mat-label>Statut</mat-label>
+  </mat-form-field>
+
+  <mat-form-field class="search-bar-field" appearance="fill">
+    <mat-select>
+      <mat-option>-- None --</mat-option>
+      <mat-option value="female">Female</mat-option>
+      <mat-option value="male">Male</mat-option>
+      <mat-option value="genderless">Genderless</mat-option>
+      <mat-option value="unknown">Unknown</mat-option>
+    </mat-select>
+    <mat-label>Genre</mat-label>
+  </mat-form-field>
+</mat-card>
+
+<div class="card-container">
+  <mat-card
+    class="card"
     *ngFor="let character of allCharacters"
-    class="character-line"
-    [class.selected]="
-      selectedCharacterId && character.id === selectedCharacterId.id
-    "
-    (click)="onClick(character.id)"
+    [routerLink]="'/character/' + character.id"
   >
-    <td>{{ character.id }}</td>
-    <td>{{ character.name }}</td>
-    <td>{{ character.status }}</td>
-    <td>{{ character.species }}</td>
-    <td>{{ character.gender }}</td>
-  </tr>
-</table>
-<br />
-<br />
-<app-single-character
-  *ngIf="this.selectedCharacterId !== undefined"
-  [characterId]="selectedCharacterId"
-></app-single-character>
+    <mat-card-title>{{ character.name }}</mat-card-title>
+    <mat-card-subtitle>{{ character.type || "n/a" }}</mat-card-subtitle>
+
+    <img
+      mat-card-image
+      [src]="character.image"
+      alt="Photo of {{ character.name }}"
+    />
+    <mat-card-content>
+      <strong>Species: </strong>&nbsp;{{ character.species }}
+      <strong>Origin: </strong>&nbsp;{{ character.origin.name }}
+      <ng-container *ngIf="character.status !== 'unknown'">
+        <strong>Status: </strong> {{ character.status }}
+      </ng-container>
+    </mat-card-content>
+  </mat-card>
+</div>
