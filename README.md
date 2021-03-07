@@ -468,7 +468,7 @@ Ajouter les types (types, interfaces ou class) pour :
 - [Character](https://rickandmortyapi.com/documentation/#character-schema) qui correspond à l'interface de l'objet d'un seul personnage
 - [Info and Pagination](https://rickandmortyapi.com/documentation/#info-and-pagination) qui correspond au résultat d'une recherche de personnages
 
-### 6 - Utiliser Angular Material
+## 6 - Utiliser Angular Material
 
 Documentation de Angular Material : https://material.angular.io/guide/getting-started
 
@@ -516,10 +516,113 @@ Ajouter un bouton en haut à droite.
 Rendu final à obtenir :
 ![Rendu final](./readme-img/6-ex4.png)
 
-Ex 5:
+### Ex 5:
 
 Ajouter `<mat-paginator>` pour afficher une pagination de la liste des personnages.
 
 Ajouter le bon binding pour `[length]` afin d'afficher le bon total de page à partir des données de l'api.
 
 > Le bon total est : 671
+
+## 7 - RxJs
+
+Changer les `Promise` + `await async` pour utiliser observable dans le service CharactersRepository
+
+### Ex 1:
+
+Supprimer les `await` / `async` et le `toPromise()` pour que les méthodes `getAllCharacters` et `getCharacterById` retournent un Observable.
+
+Dans le composant `SingleCharacterComponent` remplacer le `then` par un `subscribe`.
+
+L'application fonctionne comme avant mais elle utilise désormais des observables
+
+### Ex 2:
+
+Réaliser les mêmes actions pour `AllCharactersComponent`
+
+Mais cette fois-ci, il sera nécessaire d'utiliser l'opérateur `map()` afin d'extraire uniquement la liste de résultats `results` du model `CharactersList`.
+
+## 7 - Pipes
+
+> Les Pipes sont des filtres utilisables directement depuis la vue afin de transformer les valeurs lors du "binding".
+
+Ex :
+
+```html
+<div>{{ user.firstName | lowercase }}</div>
+```
+
+### Ex 1:
+
+Angular dispose de plusieurs "pipes" natifs : https://angular.io/api?type=pipe.
+
+En utilisant le bon pipe, afficher les noms des personnages en majuscule dans la liste.
+
+### Ex 2:
+
+https://angular.io/api/common/AsyncPipe
+
+> Le `pipe async` s'abonne à un `Observable` ou à une `Promise` et renvoie la dernière valeur qu'elle a émise. Lorsqu'une nouvelle valeur est émise, le `pipe async` marque le composant afin de "l'actualiser".  
+> Lorsque le composant est détruit, le `pipe async` se désabonne automatiquement pour éviter d'éventuelles fuites de mémoire.
+
+Utiliser le `| async` afin de s'abonner directement à l'observable contenant la liste des personnages dans le composant : `AllCharactersComponent`
+
+### Ex 2:
+
+Faire la meme chose pour le composant : `SingleCharacterComponent`
+
+> Pour éviter de créer de multiples souscriptions à un Observable, on peut stocker le résultat de l’appel avec `as`
+
+Exemple de syntaxe : `<div *ngIf="asyncUser | async as user">{{ user.name }}</div>`
+
+## 8 - Angular FormModule
+
+https://guide-angular.wishtack.io/angular/formulaires
+
+### Ex 1: Template-driven Forms
+
+Utiliser `FormsModule` et avec les `[(ngModel)]="selectedValue"` rassembler les valeurs des filtres.
+
+Ajouter un bouton valider et afficher les valeurs dans la console.
+
+### Ex 2: Reactive Forms
+
+Utiliser `ReactiveFormsModule` pour regrouper les valeurs du formulaire.  
+Afficher les valeurs dans la console en utilisant l'observable `valueChanges` afin d'afficher le log à chaque fois que la valeur d'un input change.
+
+https://angular.io/guide/reactive-forms
+
+## 9 - Les sorties avec Output()
+
+Le composant `AllCharactersComponent` peut être découpé afin de sortir la carte des filtres dans un autre composant.
+
+Créer un composant spécifique pour les filtres de personnages `CharacterSearchBarComponent`(`character-search-bar.ts`)
+
+Ajouter ce composant dans le composant `AllCharactersComponent`
+
+Nous avons besoin de faire communiquer le nouveau composant `CharacterSearchBarComponent` avec `AllCharactersComponent` afin de pouvoir passer les filtres de recherche au repository.
+
+Déclarer une variable qui va représenter le fournisseur d’événement avec une nouvelle instance de `EventEmitter`. Et ajout de la déclaration @Output() comme suit :
+
+```ts
+@Output()
+myHero = new EventEmitter<Hero>();
+```
+
+> En fait, nous ajoutons ici un custom événement, comme il existe actuellement le `(click)="..."` sur un bouton.
+
+Grâce à notre paramétrage, nous allons pouvoir, depuis la Vue du Component Parent, nous attacher à l’événement crée par `@Output()` et `EventEmitter`
+
+Et cela s’écrit comme pour l’attachement à un click sur un bouton :
+
+```html
+<app-hero-add (myHero)="selectHero($event)"></app-hero-add>
+```
+
+Afin d'émettre des événements lors d'un changement dans le formulaire nous devons appeler la fonction `emit()` de `EventEmitter`
+
+Ex : `myHero.emit({ avatar: '🦊' })`
+
+## 10 Filtrer les personnages
+
+Passer les valeurs de la barre de recherche à la méthode `getAllCharacters()` afin de filtrer les resultas dynamiquement.
