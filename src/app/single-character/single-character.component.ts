@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Observable, Subscription } from 'rxjs';
 import { Character } from '../models/Character';
 import { CharactersRepository } from '../services/character-repository.service';
 
@@ -9,7 +10,7 @@ import { CharactersRepository } from '../services/character-repository.service';
   styleUrls: ['./single-character.component.scss'],
 })
 export class SingleCharacterComponent implements OnInit {
-  character?: Character = undefined;
+  character$?: Observable<Character> = undefined;
 
   // `private` permet de définir le service `charactersRepository` comme propriété de la class
   constructor(
@@ -19,11 +20,9 @@ export class SingleCharacterComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.activatedRoute.snapshot.params.id) {
-      this.charactersRepository
-        .getCharacterById(Number(this.activatedRoute.snapshot.params.id))
-        .then((character) => {
-          this.character = character;
-        });
+      this.character$ = this.charactersRepository.getCharacterById(
+        Number(this.activatedRoute.snapshot.params.id)
+      );
     }
   }
 }

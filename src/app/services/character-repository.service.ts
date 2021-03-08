@@ -10,19 +10,15 @@ import { Character } from '../models/Character';
 export class CharactersRepository {
   constructor(private httpClient: HttpClient) {}
 
-  async getAllCharacters() {
-    const response = await this.httpClient
-      .get<CharactersList>('https://rickandmortyapi.com/api/character')
-      .toPromise();
-
-    return response;
+  getAllCharacters() {
+    return this.httpClient.get<CharactersList>(
+      'https://rickandmortyapi.com/api/character'
+    );
   }
 
-  async getCharacterById(id: number) {
-    const response = await this.httpClient
-      .get<Character>(`https://rickandmortyapi.com/api/character/${id}`)
-      .toPromise();
-
-    return response;
+  getCharacterById(id: number) {
+    return this.httpClient.get<Character>(
+      `https://rickandmortyapi.com/api/character/${id}`
+    );
   }
 }

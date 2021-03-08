@@ -2,7 +2,7 @@
   <mat-icon>undo</mat-icon>Retour a la liste des personnages
 </a>
 
-<mat-card class="card" *ngIf="character">
+<mat-card class="card" *ngIf="character$ | async as character">
   <img [alt]="character.name" [src]="character.image" />
   <div class="container">
     <h1

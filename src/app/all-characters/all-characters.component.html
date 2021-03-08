@@ -1,43 +1,45 @@
 <mat-card class="search-bar">
-  <mat-card-header class="search-bar-header">
-    <mat-card-title>Filtrer les personnages</mat-card-title>
-    <button mat-button>Effacer les filtres</button>
-  </mat-card-header>
+  <form [formGroup]="searchForm">
+    <mat-card-header class="search-bar-header">
+      <mat-card-title>Filtrer les personnages</mat-card-title>
+      <button mat-button>Effacer les filtres</button>
+    </mat-card-header>
 
-  <mat-form-field class="search-bar-field" appearance="fill">
-    <mat-label>Nom</mat-label>
-    <input matInput type="text" />
-  </mat-form-field>
+    <mat-form-field class="search-bar-field" appearance="fill">
+      <mat-label>Nom</mat-label>
+      <input matInput type="text" formControlName="name" />
+    </mat-form-field>
 
-  <mat-form-field class="search-bar-field" appearance="fill">
-    <mat-select>
-      <mat-option>-- None --</mat-option>
-      <mat-option value="alive">Alive</mat-option>
-      <mat-option value="dead">Dead</mat-option>
-      <mat-option value="unknown">Unknown</mat-option>
-    </mat-select>
-    <mat-label>Statut</mat-label>
-  </mat-form-field>
+    <mat-form-field class="search-bar-field" appearance="fill">
+      <mat-select formControlName="status">
+        <mat-option>-- None --</mat-option>
+        <mat-option value="alive">Alive</mat-option>
+        <mat-option value="dead">Dead</mat-option>
+        <mat-option value="unknown">Unknown</mat-option>
+      </mat-select>
+      <mat-label>Statut</mat-label>
+    </mat-form-field>
 
-  <mat-form-field class="search-bar-field" appearance="fill">
-    <mat-select>
-      <mat-option>-- None --</mat-option>
-      <mat-option value="female">Female</mat-option>
-      <mat-option value="male">Male</mat-option>
-      <mat-option value="genderless">Genderless</mat-option>
-      <mat-option value="unknown">Unknown</mat-option>
-    </mat-select>
-    <mat-label>Genre</mat-label>
-  </mat-form-field>
+    <mat-form-field class="search-bar-field" appearance="fill">
+      <mat-select formControlName="gender">
+        <mat-option>-- None --</mat-option>
+        <mat-option value="female">Female</mat-option>
+        <mat-option value="male">Male</mat-option>
+        <mat-option value="genderless">Genderless</mat-option>
+        <mat-option value="unknown">Unknown</mat-option>
+      </mat-select>
+      <mat-label>Genre</mat-label>
+    </mat-form-field>
+  </form>
 </mat-card>
 
 <div class="card-container">
   <mat-card
     class="card"
-    *ngFor="let character of allCharacters"
+    *ngFor="let character of allCharacters$ | async"
     [routerLink]="'/character/' + character.id"
   >
-    <mat-card-title>{{ character.name }}</mat-card-title>
+    <mat-card-title>{{ character.name | uppercase }}</mat-card-title>
     <mat-card-subtitle>{{ character.type || "n/a" }}</mat-card-subtitle>
 
     <img
