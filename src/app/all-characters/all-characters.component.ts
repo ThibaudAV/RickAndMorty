@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Character } from '../models/Character';
 import { CharactersRepository } from '../services/character-repository.service';
 
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { FormControl, FormGroup } from '@angular/forms';
+import { SearchParams } from '../filter-bar/filter-bar.component';
 @Component({
   selector: 'app-all-characters',
   templateUrl: './all-characters.component.html',
@@ -13,21 +14,17 @@ import { FormControl, FormGroup } from '@angular/forms';
 export class AllCharactersComponent implements OnInit {
   allCharacters$?: Observable<Character[]>;
 
-  searchForm = new FormGroup({
-    name: new FormControl(''),
-    status: new FormControl(''),
-    gender: new FormControl(''),
-  });
-
   constructor(private charactersRepository: CharactersRepository) {}
 
   ngOnInit(): void {
     this.allCharacters$ = this.charactersRepository
       .getAllCharacters()
       .pipe(map((list) => list.results));
+  }
 
-    this.searchForm.valueChanges.subscribe((value) => {
-      console.log(value);
-    });
+  newSearch(params: SearchParams) {
+    this.allCharacters$ = this.charactersRepository
+      .getAllCharacters(params.name, params.status, params.gender)
+      .pipe(map((list) => list.results));
   }
 }

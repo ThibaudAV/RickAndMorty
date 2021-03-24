@@ -16,12 +16,16 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
 import { MatSelectModule } from '@angular/material/select';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FilterBarComponent } from './filter-bar/filter-bar.component';
+import { HistoryComponent } from './history/history.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     SingleCharacterComponent,
     AllCharactersComponent,
+    FilterBarComponent,
+    HistoryComponent,
   ],
   imports: [
     BrowserModule,

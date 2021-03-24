@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AllCharactersComponent } from './all-characters/all-characters.component';
+import { HistoryComponent } from './history/history.component';
 import { SingleCharacterComponent } from './single-character/single-character.component';
 
 const routes: Routes = [
@@ -11,6 +12,10 @@ const routes: Routes = [
   {
     path: 'character/:id',
     component: SingleCharacterComponent,
+  },
+  {
+    path: 'history',
+    component: HistoryComponent,
   },
 ];
 

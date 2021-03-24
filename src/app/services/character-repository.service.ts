@@ -10,9 +10,13 @@ import { Character } from '../models/Character';
 export class CharactersRepository {
   constructor(private httpClient: HttpClient) {}
 
-  getAllCharacters() {
+  getAllCharacters(
+    name: string = '',
+    status: string = '',
+    gender: string = ''
+  ) {
     return this.httpClient.get<CharactersList>(
-      'https://rickandmortyapi.com/api/character'
+      `https://rickandmortyapi.com/api/character?name=${name}&status=${status}&gender=${gender}`
     );
   }
 
