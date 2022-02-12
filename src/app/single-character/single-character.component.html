@@ -1,0 +1,11 @@
+<p
+  [class.alive]="character.status === 'Alive'"
+  [class.dead]="character.status === 'Dead'"
+>
+  Name : {{ character.name }}
+</p>
+<p>Status : {{ character.status }}</p>
+<p>Species : {{ character.species }}</p>
+<p>Gender : {{ character.gender }}</p>
+<p>Location name : {{ character.location.name }}</p>
+<img [src]="character.image" [alt]="character.name" />
